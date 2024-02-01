@@ -1,0 +1,11 @@
+type Mutation {
+    """
+    Creates a new thing.
+    """
+    createThing(id: String!): ThingChangeResponse!
+}
+
+type ThingChangeResponse {
+    """A description of the type of change resulting from the request, if any."""
+    description: String
+}

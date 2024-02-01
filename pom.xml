@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>me.soels</groupId>
+    <artifactId>dgs-codegen-reproduction-case-this-escape</artifactId>
+    <version>0.0.0-SNAPSHOT</version>
+
+    <name>DGS Codegen this-escape reproduction case</name>
+    <description>Reproduction case.</description>
+    <url>https://github.com/Badbond/dgs-codegen-reproduction-case-this-escape</url>
+    <inceptionYear>2024</inceptionYear>
+
+    <scm>
+        <connection>scm:git:git@github.com:Badbond/dgs-codegen-reproduction-case-this-escape.git</connection>
+        <developerConnection>scm:git:git@github.com:Badbond/dgs-codegen-reproduction-case-this-escape.git</developerConnection>
+        <tag>HEAD</tag>
+        <url>https://github.com/Badbond/dgs-codegen-reproduction-case-this-escape</url>
+    </scm>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <version.jdk>17</version.jdk>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.netflix.graphql.dgs.codegen</groupId>
+            <artifactId>graphql-dgs-codegen-shared-core</artifactId>
+            <version>6.1.4</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.12.1</version>
+                <configuration>
+                    <compilerArgs combine.children="append">
+                        <arg>-Xlint:all</arg>
+                    </compilerArgs>
+                    <showWarnings>true</showWarnings>
+                    <failOnWarning>true</failOnWarning>
+                    <release>${version.jdk}</release>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>io.github.deweyjose</groupId>
+                <artifactId>graphqlcodegen-maven-plugin</artifactId>
+                <version>1.51.3</version>
+                <configuration>
+                    <generateClientApi>true</generateClientApi>
+                    <packageName>me.soels.api</packageName>
+                    <schemaPaths>
+                        <param>src/main/resources/schema/schema.graphqls</param>
+                    </schemaPaths>
+                    <outputDir>${project.build.directory}/generated-sources</outputDir>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>generate</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>3.5.0</version>
+                <executions>
+                    <execution>
+                        <id>add-source</id>
+                        <goals>
+                            <goal>add-source</goal>
+                        </goals>
+                        <phase>generate-sources</phase>
+                        <configuration>
+                            <sources>
+                                <source>${project.build.directory}/generated-sources</source>
+                            </sources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>
